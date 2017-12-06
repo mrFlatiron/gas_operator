@@ -401,7 +401,7 @@ EigenSolver<MatrixType>::compute(const EigenBase<InputType>& matrix, bool comput
     Index i = 0;
     while (i < matrix.cols()) 
     {
-      if (i == matrix.cols() - 1 || m_matT.coeff(i+1, i) == Scalar(0)) 
+      if (i == matrix.cols() - 1 || fabs (m_matT.coeff(i+1, i) - Scalar(0)) < 1e-15)
       {
         m_eivalues.coeffRef(i) = m_matT.coeff(i, i);
         if(!(isfinite)(m_eivalues.coeffRef(i)))
@@ -469,7 +469,7 @@ void EigenSolver<MatrixType>::doComputeEigenvectors()
   }
   
   // Backsubstitute to find vectors of upper triangular form
-  if (norm == Scalar(0))
+  if (fabs (norm - Scalar(0)) < 1e-15)
   {
     return;
   }
@@ -480,7 +480,7 @@ void EigenSolver<MatrixType>::doComputeEigenvectors()
     Scalar q = m_eivalues.coeff(n).imag();
 
     // Scalar vector
-    if (q == Scalar(0))
+    if (fabs (q - Scalar(0)) < 1e-15)
     {
       Scalar lastr(0), lastw(0);
       Index l = n;
@@ -499,9 +499,9 @@ void EigenSolver<MatrixType>::doComputeEigenvectors()
         else
         {
           l = i;
-          if (m_eivalues.coeff(i).imag() == Scalar(0))
+          if (fabs (m_eivalues.coeff(i).imag() - Scalar(0)) < 1e-15)
           {
-            if (w != Scalar(0))
+            if (fabs (w - Scalar(0)) > 1e-15)
               m_matT.coeffRef(i,n) = -r / w;
             else
               m_matT.coeffRef(i,n) = -r / (eps * norm);
@@ -560,7 +560,7 @@ void EigenSolver<MatrixType>::doComputeEigenvectors()
         else
         {
           l = i;
-          if (m_eivalues.coeff(i).imag() == RealScalar(0))
+          if (fabs (m_eivalues.coeff(i).imag() - RealScalar(0)) < 1e-15)
           {
             ComplexScalar cc = ComplexScalar(-ra,-sa) / ComplexScalar(w,q);
             m_matT.coeffRef(i,n-1) = numext::real(cc);
@@ -573,7 +573,7 @@ void EigenSolver<MatrixType>::doComputeEigenvectors()
             Scalar y = m_matT.coeff(i+1,i);
             Scalar vr = (m_eivalues.coeff(i).real() - p) * (m_eivalues.coeff(i).real() - p) + m_eivalues.coeff(i).imag() * m_eivalues.coeff(i).imag() - q * q;
             Scalar vi = (m_eivalues.coeff(i).real() - p) * Scalar(2) * q;
-            if ((vr == Scalar(0)) && (vi == Scalar(0)))
+            if ((fabs (vr - Scalar(0)) < 1e-15) && (fabs (vi - Scalar(0)) < 1e-15))
               vr = eps * norm * (abs(w) + abs(q) + abs(x) + abs(y) + abs(lastw));
 
             ComplexScalar cc = ComplexScalar(x*lastra-lastw*ra+q*sa,x*lastsa-lastw*sa-q*ra) / ComplexScalar(vr,vi);

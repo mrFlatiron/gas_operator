@@ -303,7 +303,7 @@ RealSchur<MatrixType>& RealSchur<MatrixType>::computeFromHessenberg(const HessMa
   Scalar exshift(0);   // sum of exceptional shifts
   Scalar norm = computeNormOfT();
 
-  if(norm!=0)
+  if(fabs (norm) > 1e-15)
   {
     while (iu >= 0)
     {
@@ -503,7 +503,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
     Matrix<Scalar, 2, 1> ess;
     v.makeHouseholder(ess, tau, beta);
     
-    if (beta != Scalar(0)) // if v is not zero
+    if (fabs (beta - Scalar(0)) > 1e-15) // if v is not zero
     {
       if (firstIteration && k > il)
         m_matT.coeffRef(k,k-1) = -m_matT.coeff(k,k-1);
@@ -523,7 +523,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
   Matrix<Scalar, 1, 1> ess;
   v.makeHouseholder(ess, tau, beta);
 
-  if (beta != Scalar(0)) // if v is not zero
+  if (fabs (beta - Scalar(0)) > 1e-15) // if v is not zero
   {
     m_matT.coeffRef(iu-1, iu-2) = beta;
     m_matT.block(iu-1, iu-1, 2, size-iu+1).applyHouseholderOnTheLeft(ess, tau, workspace);

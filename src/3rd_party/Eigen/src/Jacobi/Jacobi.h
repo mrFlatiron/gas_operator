@@ -217,13 +217,13 @@ void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar
 {
   using std::sqrt;
   using std::abs;
-  if(q==Scalar(0))
+  if(fabs (q - Scalar(0)) < 1e-15)
   {
     m_c = p<Scalar(0) ? Scalar(-1) : Scalar(1);
     m_s = Scalar(0);
     if(r) *r = abs(p);
   }
-  else if(p==Scalar(0))
+  else if(fabs (p - Scalar(0)) < 1e-15)
   {
     m_c = Scalar(0);
     m_s = q<Scalar(0) ? Scalar(1) : Scalar(-1);
@@ -318,7 +318,7 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
   
   OtherScalar c = j.c();
   OtherScalar s = j.s();
-  if (c==OtherScalar(1) && s==OtherScalar(0))
+  if (fabs (c - OtherScalar(1)) < 1e-15 && fabs (s - OtherScalar(0)) < 1e-15)
     return;
 
   /*** dynamic-size vectorized paths ***/

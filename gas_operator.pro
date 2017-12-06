@@ -315,3 +315,5 @@ HEADERS += \
     src/3rd_party/Eigen/UmfPackSupport
 
 INCLUDEPATH += src
+
+QMAKE_CXXFLAGS += -std=c++11

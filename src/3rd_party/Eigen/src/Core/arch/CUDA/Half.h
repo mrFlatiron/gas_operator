@@ -238,10 +238,10 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC half& operator /= (half& a, const half& b)
   return a;
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator == (const half& a, const half& b) {
-  return float(a) == float(b);
+  return fabs (float(a) - float(b)) < 1e-15;
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator != (const half& a, const half& b) {
-  return float(a) != float(b);
+  return fabs (float (a) - float (b)) >= 1e-15;
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator < (const half& a, const half& b) {
   return float(a) < float(b);
