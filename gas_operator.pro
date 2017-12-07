@@ -1,11 +1,19 @@
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TEMPLATE = app
 CONFIG += console c++11
 CONFIG -= app_bundle
-CONFIG -= qt
 
 SOURCES += src/common/math_utils.cpp \
     src/main/main.cpp \
-    src/kernel/scheme_operator.cpp
+    src/kernel/scheme_operator.cpp \
+    src/gui/plot/abstract_plot_model.cpp \
+    src/gui/plot/eigenvals_plot_model.cpp \
+    src/gui/plot/graph_painter.cpp \
+    src/gui/plot/plot_widget.cpp \
+    src/gui/main_window.cpp
 
 HEADERS += \
     src/common/debug_utils.h \
@@ -312,7 +320,14 @@ HEADERS += \
     src/3rd_party/Eigen/StdVector \
     src/3rd_party/Eigen/SuperLUSupport \
     src/3rd_party/Eigen/SVD \
-    src/3rd_party/Eigen/UmfPackSupport
+    src/3rd_party/Eigen/UmfPackSupport \
+    src/gui/plot/abstract_plot_defs.h \
+    src/gui/plot/abstract_plot_model.h \
+    src/gui/plot/dif_scheme_plot_model.h \
+    src/gui/plot/eigenvals_plot_model.h \
+    src/gui/plot/graph_painter.h \
+    src/gui/plot/plot_widget.h \
+    src/gui/main_window.h
 
 INCLUDEPATH += src
 

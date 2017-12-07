@@ -1,16 +1,23 @@
 #include <iostream>
 #include "src/kernel/scheme_operator.h"
+#include "gui/main_window.h"
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
-  scheme_operator op (0.1, 100, 2, 0.1);
+  QApplication app (argc, argv);
+//  scheme_operator op (10. / 400, 10, 10, 0.1);
 
-  auto evalues = op.compute_eigenvalues ();
+//  auto evalues = op.compute_eigenvalues ();
 
-  for (auto v : evalues)
-    {
-      std::cout << std::arg (v) << "\t" << std::norm (v) << std::endl;
-    }
+//  for (auto v : evalues)
+//    {
+//      std::cout << v << std::endl;
+//    }
 
-  return 0;
+  main_window w;
+
+  w.exec ();
+
+  return app.exec ();
 }
