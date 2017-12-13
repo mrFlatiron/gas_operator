@@ -47,7 +47,7 @@ std::vector<std::complex<double>> scheme_operator::compute_eigenvalues ()
 double scheme_operator::p_wave_deriv (double x)
 {
   (void)x;
-  return 1.4 * pow (x, 0.4);
+  return 1;
 }
 
 void scheme_operator::dump ()

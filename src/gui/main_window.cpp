@@ -21,7 +21,13 @@ main_window::~main_window ()
 
 void main_window::create_widgets ()
 {
-  m_operator = make_unique<scheme_operator> (10. / 400, 400, 10, 0.1);
+  double mass = 10;
+  double M = 250;
+  double mu = 0.1;
+  double X = 10;
+  double h = X / M;
+
+  m_operator = make_unique<scheme_operator> (h, M, mass, mu);
 
   m_model = make_unique<eigenvals_plot_model> ();
   m_model->set_eigenvalues (m_operator->compute_eigenvalues ());
