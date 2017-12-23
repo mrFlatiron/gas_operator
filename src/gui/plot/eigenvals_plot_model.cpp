@@ -58,6 +58,18 @@ void eigenvals_plot_model::bounds (const int, double &left, double &right) const
 
 void eigenvals_plot_model::set_eigenvalues (const std::vector<std::complex<double> > &evalues)
 {
-  m_eigenvalues = evalues;
+//  m_eigenvalues = evalues;
+  m_eigenvalues.clear ();
+  int count = 0;
+ for (auto e : evalues)
+   {
+     if (e.real () < 0)
+       count++;
+     else
+       m_eigenvalues.push_back (e);
+   }
+
+// printf ("%d / %d have negative real part\n", count, isize (evalues));
+
   model_changed ();
 }

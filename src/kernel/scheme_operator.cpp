@@ -15,7 +15,7 @@ void scheme_operator::reset (double h, int M, double mass, double mu)
 {
 
 
-  if (M < 3 || h <= 0 || mass <= 0 || mu <= 0)
+  if (h <= 0 || mass <= 0 || mu <= 0)
     m_status = operator_status::failed;
 
   m_h = h;
@@ -28,6 +28,7 @@ void scheme_operator::reset (double h, int M, double mass, double mu)
   m_J.resize (M + 1);
   m_W.resize (M + 1);
   m_operator.resize (rows_count (), cols_count ());
+  m_operator.setZero ();
 
   m_status = operator_status::ok;
 }
@@ -39,7 +40,7 @@ std::vector<std::complex<double>> scheme_operator::compute_eigenvalues ()
 
   make_operator ();
 
-//  dump ();
+  dump ();
 
   return compute_eigenvalues_private ();
 }
@@ -55,6 +56,9 @@ void scheme_operator::dump ()
   if (m_status != operator_status::ok)
     return;
 
+  if (rows_count () > 10)
+    return;
+
   for (int i = 0; i < rows_count (); i++)
     {
       for (int j = 0; j < cols_count (); j++)
@@ -68,44 +72,91 @@ void scheme_operator::make_operator ()
 {
   int row = 0;
   int m = 0;
-  set_W_coef (row, m + 2, -1 / m_h);
-  set_W_coef (row, m + 1, 4 / m_h);
-  set_W_coef (row, m, -3 / m_h);
 
-  row++;
-  m++;
+//  m = 1;
+//  while (m <= m_M - 1)
+//    {
+//      set_W_coef (row, m + 1, 1 / m_h);
+//      set_W_coef (row, m - 1, -1 / m_h);
 
-  while (m <= m_M - 1)
+//      row++;
+//      m++;
+//    }
+
+//  m = 0;
+//  set_W_coef (row, m + 2, -1 / m_h);
+//  set_W_coef (row, m + 1, 4 / m_h);
+//  set_W_coef (row, m, -3 / m_h);
+
+//  row++;
+//  m++;
+
+
+//  m = m_M;
+//  set_W_coef (row, m - 2, 1 / m_h);
+//  set_W_coef (row, m - 1, -4 / m_h);
+//  set_W_coef (row, m, 3 / m_h);
+
+//  row++;
+
+//  m = 1;
+//  while (m <= m_M - 1)
+//    {
+//      set_J_coef (row, m +  1, p_wave_deriv (m_rho) / (2 * m_h));
+//      set_J_coef (row, m - 1, -p_wave_deriv (m_rho) / (2 * m_h));
+//      set_W_coef (row, m + 1, -m_mu / (m_rho * m_h * m_h));
+//      set_W_coef (row, m, 2 * m_mu / (m_rho * m_h * m_h));
+//      set_W_coef (row, m - 1, -m_mu / (m_rho * m_h * m_h));
+
+//      row++;
+//      m++;
+//    }
+
+//  set_W_coef (row, 0, 1);
+//  row++;
+//  set_W_coef (row, m_M, 1);
+
+//  set_W_coef (row, 0, 1);
+//  row++;
+
+  if (m_M > 2)
+    set_W_coef (row, 2, -1 / m_h);
+
+  set_W_coef (row, 1, 4 / m_h);
+//    set_W_coef (row, 0, -3 / m_h);
+row++;
+  m = 1;
+  while (m <= m_M -1)
     {
-      set_W_coef (row, m + 1, 1 / m_h);
+
+      if (m != m_M - 1)
+        set_W_coef (row, m + 1, 1 / m_h);
       set_W_coef (row, m - 1, -1 / m_h);
 
       row++;
-      m++;
-    }
 
-  set_W_coef (row, m - 2, 1 / m_h);
-  set_W_coef (row, m - 1, -4 / m_h);
-  set_W_coef (row, m, 3 / m_h);
-
-  row++;
-  m = 1;
-
-  while (m <= m_M - 1)
-    {
       set_J_coef (row, m +  1, p_wave_deriv (m_rho) / (2 * m_h));
       set_J_coef (row, m - 1, -p_wave_deriv (m_rho) / (2 * m_h));
-      set_W_coef (row, m + 1, -m_mu / (m_rho * m_h * m_h));
+      if (m != m_M - 1)
+        set_W_coef (row, m + 1, -m_mu / (m_rho * m_h * m_h));
       set_W_coef (row, m, 2 * m_mu / (m_rho * m_h * m_h));
-      set_W_coef (row, m - 1, m_mu / (m_rho * m_h * m_h));
+      set_W_coef (row, m - 1, -m_mu / (m_rho * m_h * m_h));
 
       row++;
+
+
+
+
       m++;
     }
 
-  set_W_coef (row, 0, 1);
+  set_W_coef (row, m_M - 2, 1 / m_h);
+  set_W_coef (row, m_M - 1, -4 / m_h);
+//  set_W_coef (row, m_M, 3 / m_h);
+
   row++;
-  set_W_coef (row, m_M, 1);
+
+//  set_W_coef (row, m_M, 1);
 }
 
 std::vector<std::complex<double>> scheme_operator::compute_eigenvalues_private ()
@@ -145,12 +196,17 @@ void scheme_operator::set_W_coef (int row, int m, double val)
 
 int scheme_operator::col_for_J (int m) const
 {
-  return m;
+//  return m;
+  if (m < 2)
+    return m;
+
+  return 2 * m - 1;
 }
 
 int scheme_operator::col_for_W (int m) const
 {
-  return m_M + 1 + m;
+//  return m_M + m;
+  return 2 * m;
 }
 
 double scheme_operator::g () const
@@ -160,7 +216,7 @@ double scheme_operator::g () const
 
 int scheme_operator::rows_count () const
 {
-  return 2 * m_M + 2;
+  return 2 * m_M /*+ 2*/;
 }
 
 int scheme_operator::cols_count () const

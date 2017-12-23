@@ -33,6 +33,8 @@ void graph_painter::draw_axis ()
 
   setPen (temp_pen);
   drawLine (m_oy_shift, to_scale (QPointF (0, 0)).y (), d_width, to_scale (QPointF (0, 0)). y ());
+  drawLine (to_scale (QPointF (0, 0)).x (), d_height - m_ox_shift,
+            to_scale (QPointF (0, 0)).x (), 0);
   setPen (save_pen);
 
 
