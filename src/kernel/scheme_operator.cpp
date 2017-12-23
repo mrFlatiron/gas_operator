@@ -77,7 +77,7 @@ void scheme_operator::make_operator ()
     set_W_coef (row, 2, -1 / m_h);
 
   set_W_coef (row, 1, 4 / m_h);
-//    set_W_coef (row, 0, -3 / m_h);
+//  set_W_coef (row, 0, -3 / m_h);
 row++;
   m = 1;
   while (m <= m_M -1)
@@ -85,7 +85,8 @@ row++;
 
       if (m != m_M - 1)
         set_W_coef (row, m + 1, 1 / m_h);
-      set_W_coef (row, m - 1, -1 / m_h);
+      if (m != 1)
+        set_W_coef (row, m - 1, -1 / m_h);
 
       row++;
 
@@ -94,7 +95,8 @@ row++;
       if (m != m_M - 1)
         set_W_coef (row, m + 1, -m_mu / (m_rho * m_h * m_h));
       set_W_coef (row, m, 2 * m_mu / (m_rho * m_h * m_h));
-      set_W_coef (row, m - 1, -m_mu / (m_rho * m_h * m_h));
+      if (m != 1)
+        set_W_coef (row, m - 1, -m_mu / (m_rho * m_h * m_h));
 
       row++;
 
@@ -155,12 +157,14 @@ int scheme_operator::col_for_J (int m) const
     return m;
 
   return 2 * m - 1;
+//  return 2 * m;
 }
 
 int scheme_operator::col_for_W (int m) const
 {
 //  return m_M + m;
   return 2 * m;
+//  return 2 * m + 1;
 }
 
 double scheme_operator::g () const
