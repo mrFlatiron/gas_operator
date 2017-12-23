@@ -69,7 +69,7 @@ void eigenvals_plot_model::set_eigenvalues (const std::vector<std::complex<doubl
        m_eigenvalues.push_back (e);
    }
 
-// printf ("%d / %d have negative real part\n", count, isize (evalues));
+ printf ("%d / %d have negative real part\n", count, isize (evalues));
 
   model_changed ();
 }

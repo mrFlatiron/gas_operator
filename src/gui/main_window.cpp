@@ -22,7 +22,7 @@ main_window::~main_window ()
 void main_window::create_widgets ()
 {
   double mass = 10;
-  double M = 300;
+  double M = 120;
   double mu = 0.01;
   double X = 10;
   double h = X / M;

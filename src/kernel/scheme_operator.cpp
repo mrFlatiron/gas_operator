@@ -73,52 +73,6 @@ void scheme_operator::make_operator ()
   int row = 0;
   int m = 0;
 
-//  m = 1;
-//  while (m <= m_M - 1)
-//    {
-//      set_W_coef (row, m + 1, 1 / m_h);
-//      set_W_coef (row, m - 1, -1 / m_h);
-
-//      row++;
-//      m++;
-//    }
-
-//  m = 0;
-//  set_W_coef (row, m + 2, -1 / m_h);
-//  set_W_coef (row, m + 1, 4 / m_h);
-//  set_W_coef (row, m, -3 / m_h);
-
-//  row++;
-//  m++;
-
-
-//  m = m_M;
-//  set_W_coef (row, m - 2, 1 / m_h);
-//  set_W_coef (row, m - 1, -4 / m_h);
-//  set_W_coef (row, m, 3 / m_h);
-
-//  row++;
-
-//  m = 1;
-//  while (m <= m_M - 1)
-//    {
-//      set_J_coef (row, m +  1, p_wave_deriv (m_rho) / (2 * m_h));
-//      set_J_coef (row, m - 1, -p_wave_deriv (m_rho) / (2 * m_h));
-//      set_W_coef (row, m + 1, -m_mu / (m_rho * m_h * m_h));
-//      set_W_coef (row, m, 2 * m_mu / (m_rho * m_h * m_h));
-//      set_W_coef (row, m - 1, -m_mu / (m_rho * m_h * m_h));
-
-//      row++;
-//      m++;
-//    }
-
-//  set_W_coef (row, 0, 1);
-//  row++;
-//  set_W_coef (row, m_M, 1);
-
-//  set_W_coef (row, 0, 1);
-//  row++;
-
   if (m_M > 2)
     set_W_coef (row, 2, -1 / m_h);
 
