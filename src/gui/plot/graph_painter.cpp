@@ -64,7 +64,7 @@ void graph_painter::draw_graph (const int graph_num)
 
   first = get_first_graph_point (graph_num, discrete);
 
-  if (connect_points && m_plot_model->paint_config (graph_num, graph_role::points_count) < 1)
+  if (connect_points && m_plot_model->paint_config (graph_num, graph_role::points_count).toInt () < 1)
     return;
 
   if (!connect_points)
